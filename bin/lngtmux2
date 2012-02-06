@@ -1,0 +1,9 @@
+#!/bin/bash
+
+#Bash script for starting vimclojure and opening a tmux session.
+
+PUNCHLINE="tmux new-session ; split-window ; split-window ; select-layout even-horizontal ; attach"
+STARTPATTERN="NGServer\ started\ .*"
+BGTASK="lein vimclojure"
+
+fgbg.bash mngtmux "$PUNCHLINE" "$BGTASK" "$STARTPATTERN"

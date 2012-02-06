@@ -3,10 +3,13 @@
 #Bash script for starting vimclojure and opening a tmux session.
 #This turned out more complicated than I initially hoped...
 
+SCRIPTNAME="mngtmux"
+DONE_MARK="$SCRIPTNAME is done"
+
 #Startup
-OUTFILE=`mktemp -t mtmux` || exit 1
+OUTFILE=`mktemp -t $SCRIPTNAME` || exit 1
 trap "rm -f $OUTFILE" EXIT
-lein vimclojure 2>&1 | tee $OUTFILE &
+{ mvn clojure:nailgun 2>&1 | tee $OUTFILE; echo $DONE_MARK >> $OUTFILE; } &
 
 #wait to start
 VCLJ_RESULT="unknown"
@@ -21,7 +24,7 @@ while true; do
 			echo "VimClojure is up"
 			VCLJ_RESULT="success"
 			break
-		else
+		elif [[ $line =~ $DONE_MARK ]]; then
 			echo "aborting"
 			for job in `jobs -p`; do kill $job; done
 			wait
@@ -37,3 +40,4 @@ tmux new-session \; split-window \; split-window \; select-layout even-horizonta
 echo "Exiting"
 for job in `jobs -p`; do kill $job; done
 wait
+exit 0

@@ -1,0 +1,40 @@
+#!/bin/bash
+
+#Bash script for starting vimclojure and opening a tmux session.
+#This turned out more complicated than I initially hoped...
+
+#Startup
+OUTFILE=`mktemp -t mtmux` || exit 1
+trap "rm -f $OUTFILE" EXIT
+lein vimclojure 2>&1 | tee $OUTFILE &
+
+#wait to start
+VCLJ_RESULT="unknown"
+while true; do
+	if [[ $VCLJ_RESULT != "unknown" ]]; then
+		break
+	fi
+	sleep 1
+	# look for the lines that tell us what happened
+	while read line; do
+		if [[ $line =~ NGServer\ started\ .* ]]; then
+			echo "VimClojure is up"
+			VCLJ_RESULT="success"
+			break
+		else
+			echo "aborting"
+			for job in `jobs -p`; do kill $job; done
+			wait
+			exit 1
+		fi
+	done < <(cat $OUTFILE)
+done
+
+#punch line
+tmux new-session \; split-window \; split-window \; select-layout even-horizontal \; attach
+
+# Cleanup
+echo "Exiting"
+for job in `jobs -p`; do kill $job; done
+wait
+exit 0
