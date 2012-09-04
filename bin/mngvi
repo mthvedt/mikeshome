@@ -2,7 +2,7 @@
 
 #Bash script for starting vimclojure and opening a tmux session.
 
-PUNCHLINE="tmux new-session ; split-window ; split-window ; select-layout even-horizontal ; attach"
+PUNCHLINE="vi"
 STARTPATTERN="NGServer\ started\ .*"
 BGTASK="mvn clojure:nailgun"
 
