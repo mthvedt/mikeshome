@@ -33,6 +33,7 @@ OUTFILE=`mktemp -t $SCRIPTNAME` || exit 1
 trap "rm -f $OUTFILE" EXIT
 
 # Executes bg command, followed by echoing done mark, to our sentinel file
+echo "$BG_COMMAND"
 {
 $BG_COMMAND 2>&1 | tee $OUTFILE;
 echo $DONE_MARK >> $OUTFILE;
@@ -41,20 +42,19 @@ BG_TASK=$!
 trap "killtree.bash $BG_TASK" EXIT
 
 # wait to start
-VCLJ_RESULT="unknown"
+BG_RESULT="unknown"
 while true; do
-	if [[ $VCLJ_RESULT != "unknown" ]]; then
+	if [[ $BG_RESULT != "unknown" ]]; then
 		break
 	fi
 	sleep 1
 	# look for the lines that tell us what happened
 	while read line; do
 		if [[ $line =~ $BG_START ]]; then
-			echo "VimClojure is up"
-			VCLJ_RESULT="success"
+			BG_RESULT="success"
 			break
 		elif [[ $line =~ $DONE_MARK ]]; then
-			echo "aborting"
+			echo "Task failed; aborting"
 			for job in `jobs -p`; do kill $job; done
 			wait
 			exit 1
@@ -63,5 +63,7 @@ while true; do
 done
 
 # punch line
+echo "$FG_COMMAND"
 $FG_COMMAND
+trap "echo done" EXIT
 exit 0

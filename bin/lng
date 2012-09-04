@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#Bash script for starting vimclojure on some port and opening vi.
+
+. scanport.bash
+
+scanport NGPORT $NGPORT
+PUNCHLINE="vi"
+STARTPATTERN="Happy hacking!"
+BGTASK="lein2 vimclojure :port $NGPORT"
+
+fgbg.bash lng "$PUNCHLINE" "$BGTASK" "$STARTPATTERN"
