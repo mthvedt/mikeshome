@@ -1,9 +1,12 @@
 #!/bin/bash 
 
-function scanport {
+# Scanport: Find an open UNIX port.
+# Arg 1: The environment variable to store the port.
+# Arg 2: The port with which to begin scanning.
+
+scanport() {
 	for PORT in $(seq $2 65000); do
-		echo -ne "\035" | telnet 127.0.0.1 $PORT > /dev/null 2>&1
-		if [ $? -eq 1 ]; then
+		if [[ ! $(netstat -an | grep "\([0-9]\{1,3\}\.\)\{4\}${PORT}") ]]; then
 			eval "$1=$PORT"
 			return 0
 		fi

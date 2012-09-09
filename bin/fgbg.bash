@@ -35,18 +35,15 @@ trap "rm -f $OUTFILE" EXIT
 # Executes bg command, followed by echoing done mark, to our sentinel file
 echo "$BG_COMMAND"
 {
-$BG_COMMAND 2>&1 | tee $OUTFILE;
-echo $DONE_MARK >> $OUTFILE;
+$BG_COMMAND 2>&1 | tee $OUTFILE
+echo $DONE_MARK >> $OUTFILE
 } &
-BG_TASK=$!
-trap "killtree.bash $BG_TASK" EXIT
+trap "killtree.bash $!; echo done" EXIT
 
 # wait to start
 BG_RESULT="unknown"
 while true; do
-	if [[ $BG_RESULT != "unknown" ]]; then
-		break
-	fi
+	[[ $BG_RESULT != "unknown" ]] && break
 	sleep 1
 	# look for the lines that tell us what happened
 	while read line; do
@@ -65,5 +62,6 @@ done
 # punch line
 echo "$FG_COMMAND"
 $FG_COMMAND
-trap "echo done" EXIT
+
+# after command completes
 exit 0
