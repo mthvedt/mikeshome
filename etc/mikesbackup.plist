@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN"
 "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Symlink me into LaunchDaemons folder -->
 <plist version="1.0">
-<dict>
+  <dict>
     <key>Label</key>
     <string>mikes-autobackup</string>
     <key>ProgramArguments</key>
     <array> 
-        <string>/Users/mike/bin/backup.sh</string>
+      <string>/Users/mike/Dropbox/mikeshome/bin/backup.sh</string>
     </array>
     <!--
     <key>GroupName</key>
@@ -23,10 +24,10 @@
     <string>/var/log/mikesbackup.log</string>
     <key>StartCalendarInterval</key>
     <dict>
-        <key>Hour</key>
-        <integer>5</integer>
-        <key>Minute</key>
-        <integer>0</integer>
+      <key>Hour</key>
+      <integer>5</integer>
+      <key>Minute</key>
+      <integer>0</integer>
     </dict>
-</dict>
+  </dict>
 </plist>
