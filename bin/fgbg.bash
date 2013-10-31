@@ -13,6 +13,7 @@
 # the foreground command is started
 
 set +o verbose
+set -e
 
 MINPARAMS=4
 if [ $# -lt "$MINPARAMS" ]
@@ -44,7 +45,7 @@ trap "killtree.bash $!; echo done" EXIT
 BG_RESULT="unknown"
 while true; do
 	[[ $BG_RESULT != "unknown" ]] && break
-	sleep 1
+	sleep 0.1
 	# look for the lines that tell us what happened
 	while read line; do
 		if [[ $line =~ $BG_START ]]; then

@@ -2,11 +2,14 @@
 
 #Bash script for starting vimclojure on some port and opening vi.
 
+set -e
+
 . scanport.bash
 
 scanport NGPORT $NGPORT
 PUNCHLINE="vi"
 STARTPATTERN="Happy hacking!"
-BGTASK="lein2 vimclojure :port $NGPORT"
+BGTASK="lein vimclojure :port $NGPORT"
+export LEIN_JAVA_CMD=""
 
 fgbg.bash lng "$PUNCHLINE" "$BGTASK" "$STARTPATTERN"
