@@ -7,7 +7,7 @@ set -e
 . scanport.bash
 
 scanport NGPORT $NGPORT
-PUNCHLINE="vi"
+PUNCHLINE="vi $@"
 STARTPATTERN="Happy hacking!"
 BGTASK="lein vimclojure :port $NGPORT"
 export LEIN_JAVA_CMD=""
