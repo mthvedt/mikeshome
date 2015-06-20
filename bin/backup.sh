@@ -21,7 +21,7 @@ fi
 
 # Directories to backup
 #DIRS="/home /etc /usr/local/etc"
-DIRS="/Users/mike/Documents /Users/mike/Dropbox /Users/mike/programming"
+DIRS="/Users/mike/Documents /Users/mike/Dropbox /Users/mike/programming /Users/mike/work"
 
 # Number of daily/weekly/etc backups to keep
 DAILY=21
