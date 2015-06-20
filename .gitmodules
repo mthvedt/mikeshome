@@ -1,0 +1,3 @@
+[submodule "opt/bazel"]
+	path = opt/bazel
+	url = https://github.com/google/bazel.git
